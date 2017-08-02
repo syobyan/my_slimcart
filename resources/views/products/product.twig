@@ -1,0 +1,34 @@
+{% extends 'templates/app.twig' %}
+
+{% block title %}{{ product.title }} | {% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-4">
+			{% if product.image %}
+			<img src="{{ base_url() }}/images/{{ product.image }}" alt="{{ product.title }} image" class="thumbnail img-responsive" style="height:208; width:600px;">
+			{% else %}
+			<img src="http://placehold.it/600x350" alt="{{ product.title }} image" class="thumbnail img-responsive">
+			{% endif %}
+		</div>
+		<div class="col-md-8">
+
+
+			{% if product.outOfStock() %}
+				<span class="label label-danger">Out of stock</span>
+			{% elseif product.hasLowStock() %}
+				<span class="label label-warning">Low stock</span>
+			{% elseif product.inStock() %}
+				<span class="label label-success">In stock</span>
+			{% endif %}
+
+			<h4>{{ product.title }}</h4>
+			<p>${{ product.price }}</p>
+			<p>Description: {{ product.description }}</p>
+
+			{% if product.inStock() %}
+				<a href="{{ path_for('cart.add', { slug: product.slug, quantity: 1 }) }}" class="btn btn-default btn-sm">Add to cart</a>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

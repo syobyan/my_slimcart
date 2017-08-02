@@ -1,0 +1,119 @@
+
+{% extends 'admin/templates/app.twig' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Products
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+            <i class="fa fa-fw fa-bar-chart-o"></i>  <a href="#">Dashboard</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-fw fa fa-shopping-cart"></i> Products
+            </li>
+        </ol>
+    </div>
+</div>
+<!-- /.row -->
+
+<p>
+  <a href="{{ path_for('admin.product.add') }}" class="btn btn-large btn-info"><i class="glyphicon glyphicon-plus"></i> &nbsp; Add Product</a>
+</p>
+
+
+  <table class='table table-bordered table-responsive'>
+     <tr>
+     <th>Title</th>
+     <th>Price</th>
+     <th>Stock</th>
+     <th>Description</th>
+     <th>Image</th>
+     <th colspan="2" align="center">Actions</th>
+     </tr>
+		{% for product in products %}
+		
+			<tr class="product{{ product.id }} ">
+                <td>{{product.title}}</td>
+                <td>{{product.price}}</td>
+                <td>{{product.stock}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.image}}</td>
+                <td align="center">
+                <a href="{{ path_for('admin.product.update.get', {id: product.id}) }}"><i class="glyphicon glyphicon-edit"></i></a>
+                </td>
+                <td align="center">
+                <a href="#" data-record-id="{{ product.id }}"  data-toggle="modal" data-target="#confirm-delete"><i class="glyphicon glyphicon-remove-circle"></i></a>
+                </td>
+        </tr>
+        {% endfor %}
+    <tr>
+        <td colspan="7" align="center">
+   		 <div class="pagination-wrap">
+            	{% import "admin/templates/partials/pagination.twig" as pd %}
+				      {{ pd.myPagination(products) }}
+         </div>
+        </td>
+    </tr>
+ 
+</table>
+</div>
+
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-trash"></i> Delete !</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to Delete </p>
+                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-delete">Submit</button>
+                    {{ csrf.field | raw }}
+                </div>
+            </div>
+        </div>
+   
+  {% endblock %}
+
+{% block scripts %}
+    <script>
+     $('#confirm-delete').on('show.bs.modal', function(e) {
+        var data = $(e.relatedTarget).data();
+        $('.btn-delete', this).data('recordId', data.recordId);
+    });
+
+     $('#confirm-delete').on('click', '.btn-delete', function(e) {
+            var id = $(this).data('recordId');
+            var csrf_name = $("input[name*='csrf_name']").val();
+            var csrf_value = $("input[name*='csrf_value']").val();
+
+            var responsedata = $.ajax({
+                    type:"POST",  
+                    url:'{{ path_for('admin.product.del') }}',
+                    data: {id:id,
+                           csrf_name:csrf_name,
+                           csrf_value:csrf_value,
+                        },
+                      async:false
+            }).responseText;
+
+            if(responsedata == 'Success'){
+                $('#confirm-delete').modal('hide');
+                $(".product"+id).fadeOut(500);
+                 setTimeout(function(){
+                        location.reload();
+                    }, 1000);    
+            }
+     });
+   </script>
+{% endblock %}

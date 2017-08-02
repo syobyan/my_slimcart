@@ -1,0 +1,91 @@
+
+{% extends 'admin/templates/app.twig' %}
+
+{% block content %}
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+        Edit Product
+        </h1>
+    </div>
+</div>
+<!-- /.row -->
+<form action="{{ path_for('admin.product.update', { id:product.id }) }}" method="post" enctype="multipart/form-data">
+	<table class='table table-bordered'>
+
+        <tr>
+            <td>Titel</td>
+            <td>
+            	<div class="form-group {{ errors.title ? 'has-error' : '' }}">
+                  <input type="text" name="title" placeholder="title" class="form-control" value="{{ product.title }}">
+                  {% if errors.title %}
+                  <span class="help-block">{{ errors.title | first }}</span>
+                  {% endif %}
+              </div>
+          </td>
+      </tr>
+
+      <tr>
+        <td>Price</td>
+        <td>
+           <div class="form-group {{ errors.price ? 'has-error' : '' }}">
+              <input type="text" name="price" placeholder="price" class="form-control" value="{{ product.price }}">
+              {% if errors.price %}
+              <span class="help-block">{{ errors.price | first }}</span>
+              {% endif %}
+          </div>
+      </td>
+  </tr>
+
+  <tr>
+    <td>Stock</td>
+    <td>
+       <div class="form-group {{ errors.stock ? 'has-error' : '' }}">
+          <input type="text" name="stock" placeholder="stock" class="form-control" value="{{ product.stock }}">
+          {% if errors.stock %}
+          <span class="help-block">{{ errors.stock | first }}</span>
+          {% endif %}
+      </div>
+  </td>
+</tr>
+
+<tr>
+    <td>Description</td>
+    <td>
+       <div class="form-group {{ errors.description ? 'has-error' : '' }}">
+           <textarea class="form-control" name="description" rows="5" id="comment">{{  product.description }}</textarea>
+           {% if errors.description %}
+           <span class="help-block">{{ errors.description | first }}</span>
+           {% endif %}
+       </div>
+   </td>
+</tr>
+
+<tr>
+    <td>Image</td>
+    <td>
+       <div class="form-group {{ errors.image ? 'has-error' : '' }}">
+          <p><img src="{{ base_url()}}/images/{{ product.image}}" height="150" width="150" /></p>
+          <input type="file" name="file" class="form-control" value="{{ old.image }}" >
+          {% if errors.image %}
+          <span class="help-block">{{ errors.image | first }}</span>
+          {% endif %}
+      </div>
+  </td>
+</tr>
+
+<tr>
+    <td colspan="2">
+
+        <button type="submit" class="btn btn-primary" name="btn-save">
+          <span class="glyphicon glyphicon-plus"></span> Submit
+      </button>  
+      <a href="{{ path_for('admin.products')}}" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Back to products</a>
+      {{ csrf.field | raw }}
+  </td>
+</tr>
+
+</table>
+</form>
+{% endblock %}

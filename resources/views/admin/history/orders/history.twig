@@ -1,0 +1,79 @@
+
+{% extends 'admin/templates/app.twig' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            History
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+            <i class="fa fa-fw fa-bar-chart-o"></i>  <a href="#">Dashboard</a>
+            </li>
+            <li class="active">
+                <i class="fa fa-fw fa-bars"></i> History
+            </li>
+             <li class="active">
+               Orders history
+            </li>
+        </ol>
+    </div>
+</div>
+<!-- /.row -->
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Orders history </div>
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Number</th>
+						<th>Time</th>
+						<th>Name</th>
+						<th>Phone</th>
+						<th>Total</th>
+						<th>Item</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order in orders %}
+					<tr class="product{{ order.id }}">
+						<td>{{ order.number}}</td>
+						<td>{{ order.created_at}}</td>
+						<td>{{ order.customer.name}}</td>
+						<td>{{ order.customer.phone}}</td>
+						<td>{{ order.total}}</td>
+						<td>
+							{% for product in order.products %}
+							<a href="{{ path_for('product.get', {slug: product.slug}) }}">
+								<p>
+									{{ product.title }}
+								</a>
+								(x {{ product.pivot.quantity }})
+							</p>
+							{% endfor %}
+
+						</td>
+						<td>
+							  <a href="{{ path_for('admin.order.history.get', {id: order.id}) }}"><i class="glyphicon glyphicon-file"></i></a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			{% import "admin/templates/partials/pagination.twig" as record %}
+			{{ record.myPagination(orders) }}
+		</div>
+	</div>
+
+
+
+
+{% endblock %}
+

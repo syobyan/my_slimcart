@@ -1,0 +1,73 @@
+
+  {% extends 'admin/templates/app.twig' %}
+
+  {% block content %}
+ <!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            History
+        </h1>
+    </div>
+</div>
+<!-- /.row -->
+ <form action="{{path_for('admin.product.add', {id: product.id})}}" method="post" enctype="multipart/form-data">
+	<table class='table table-bordered'>
+ 
+        <tr>
+            <td>Number</td>
+            <td>
+            {{ orders.number }}
+			</td>
+        </tr>
+        <tr>
+            <td>Time</td>
+            <td>
+            {{ orders.created_at }}
+            </td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>
+            {{ orders.customer.name }}
+            </td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>
+            {{ orders.customer.phone }}
+            </td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>
+            {{ orders.total }}
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+            {{ orders.address.address_one }}
+            </td>
+        </tr>
+        <tr>
+            <td>items</td>
+            <td>
+            {% for product in orders.products %}
+            <p>
+            {{ product.title }} (x {{ product.pivot.quantity }})
+            </p>
+            {% endfor %}
+            </td>
+        </tr>
+ 
+        <tr>
+            <td colspan="2">
+            <a href="{{ path_for('admin.order.history')}}" class="btn btn-large btn-success"><i class="glyphicon glyphicon-backward"></i> &nbsp; Back to index</a>
+            {{ csrf.field | raw }}
+            </td>
+        </tr>
+ 
+    </table>
+    </form>
+   {% endblock %}

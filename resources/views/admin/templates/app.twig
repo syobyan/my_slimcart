@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %}Slim Shopping Cart</title>
+	
+	<link href="{{ base_url()}}/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="{{ base_url()}}/css/sb-admin.css" rel="stylesheet">
+
+	<!-- Custom Fonts -->
+	<link href="{{ base_url()}}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	{% include 'admin/templates/partials/navigation.twig' %}
+	<div id="wrapper">
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				{% include 'admin/templates/partials/flash.twig' %}
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+	 <!-- jQuery -->
+    <script src="{{ base_url()}}/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ base_url()}}/js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{{ base_url()}}/js/plugins/morris/raphael.min.js"></script>
+    <script src="{{ base_url()}}/js/plugins/morris/morris.min.js"></script>
+    <script src="{{ base_url()}}/js/plugins/morris/morris-data.js"></script>
+
+    <!-- Flot Charts JavaScript -->
+    <!--[if lte IE 8]><script src="js/excanvas.min.js"></script><![endif]-->
+    <script src="{{ base_url()}}/js/plugins/flot/jquery.flot.js"></script>
+    <script src="{{ base_url()}}/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="{{ base_url()}}/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="{{ base_url()}}/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="{{ base_url()}}/js/plugins/flot/flot-data.js"></script>
+
+	{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,61 @@
+
+  {% extends 'templates/app.twig' %}
+
+
+
+
+  {% block content %}
+  <div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					sign up
+				</div>
+				<div class="panel-body">
+				 <form action="{{ path_for('auth.signup')}}" method="post">
+
+				 	<div class="form-group {{ errors.email ? 'has-error' : '' }}">
+				 		<label for="email">Email</label>
+				 		<input type="email" name="email" placeholder="email" class="form-control" value="{{ old.email }}">
+				 		{% if errors.email %}
+				 		<span class="help-block">{{ errors.email | first }}</span>
+				 		{% endif %}
+				 	</div>
+				 	<div class="form-group {{ errors.name ? 'has-error' : '' }}">
+				 		<label for="name">Name</label>
+				 		<input type="text" name="name" placeholder="name" class="form-control" value="{{ old.name }}">
+				 		{% if errors.name %}
+				 		<span class="help-block">{{ errors.name | first }}</span>
+				 		{% endif %}
+				 	</div>
+				 	<div class="form-group {{ errors.phone ? 'has-error' : '' }}">
+				 		<label for="name">Phone</label>
+				 		<input type="text" name="phone" placeholder="phone" class="form-control" value="{{ old.phone }}">
+				 		{% if errors.phone %}
+				 		<span class="help-block">{{ errors.phone | first }}</span>
+				 		{% endif %}
+				 	</div>
+				 	<div class="form-group {{ errors.password ? 'has-error' : '' }}">
+				 		<label for="password">Passowerd</label>
+				 		<input type="password" name="password" placeholder="password" class="form-control" value="{{ old.password }}" >
+				 		{% if errors.password %}
+				 		<span class="help-block">{{ errors.password | first }}</span>
+				 		{% endif %}
+				 	</div>
+				 	<div class="form-group {{ errors.confirm_password ? 'has-error' : '' }}">
+				 		<label for="password">Confirm Passowerd</label>
+				 		<input type="password" name="confirm_password" placeholder="confirm_password" class="form-control" value="{{ old.confirm_password }}" >
+				 		{% if errors.confirm_password %}
+				 		<span class="help-block">{{ errors.confirm_password | first }}</span>
+				 		{% endif %}
+				 	</div>
+				 	<button type="submit" class="btn btn-difault">Sign Up</button>
+					{{ csrf.field | raw }}
+				 </form>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+   {% endblock %}

@@ -1,0 +1,42 @@
+{% macro myPagination(arrays) %}
+
+{% if arrays is not empty and arrays.lastPage > 1 %}
+
+    <div class="paginate-wrapper">
+
+        <ul class="pagination">
+
+            <li class="{{ (arrays.currentPage == 1) ? 'active' : '' }}">
+                <a href="{{ uri.link }}{{ (uri.request_sent) ? '&' : '?' }}page=1">First</a>
+            </li>
+
+            {% for page_number in 1..(arrays.lastPage) %}
+
+                {% set half_total_links = 7 / 2 | round %}
+                {% set from = arrays.currentPage - half_total_links %}
+                {% set to = arrays.currentPage + half_total_links %}
+
+                {% if arrays.currentPage < half_total_links %}
+                    {% set to = (half_total_links - arrays.currentPage) + to %}
+                {% endif %}
+
+                {% if (arrays.lastPage - arrays.currentPage) < half_total_links %}
+                    {% set from = (half_total_links - (arrays.lastPage - arrays.currentPage) - 1) - to %}
+                {% endif %}
+
+                {% if from < page_number and page_number < to %}
+                    <li class="{{ (arrays.currentPage == page_number) ? 'active' : '' }}">
+                        <a href="{{ uri.link }}{{ (uri.request_sent) ? '&' : '?' }}page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <li class="{{ (arrays.currentPage == arrays.lastPage) ? 'active' : '' }}">
+                <a href="{{ uri.link }}{{ (uri.request_sent) ? '&' : '?' }}page={{ arrays.lastPage }}">
+                    Last
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endif %}
+{% endmacro %}

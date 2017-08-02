@@ -1,0 +1,17 @@
+<div class="thumbnail">
+	<a href="{{ path_for('product.get', {slug: product.slug}) }}">
+		{% if product.image %}
+			<img src="{{ base_url() }}/images/{{ product.image }}" alt="{{ product.title }} image" class="thumbnail img-responsive" style="height:208px; width:600px;">
+			{% else %}
+			<img src="http://placehold.it/600x350" alt="{{ product.title }} image" class="thumbnail img-responsive">
+			{% endif %}
+	</a>
+	<div class="caption">
+		<h4>
+			<a href="{{ path_for('product.get', {slug: product.slug}) }}">
+				{{ product.title }}
+			</a>
+		</h4>
+		<p>{{ product.description }}</p>
+	</div>
+</div>
